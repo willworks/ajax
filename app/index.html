@@ -1,22 +1,32 @@
 <html lang='zh-CN'>
 <head>
-	<title>ajax</title>
+	<title>AJAX and JSONP</title>
 	<meta charset="utf-8" />
 </head>
 <body>
 	<div>
-		<span id="num">我是名字</span>
-		<span id="age">我是年龄</span>
-		<span id="sex">我是年龄</span>
+		<h2>AJAX GET</h2>
+		<span id="namGet">我是名字</span>
+		<span id="ageGet">我是年龄</span>
+		<span id="sexGet">我是年龄</span>
 	</div>
 	<br />
-	<button id="btn" onclick="change()">ajax GET</button>
+	<button id="btn" onclick="get()">GET</button>
+	<br />
+	<div>
+		<h2>AJAX POST</h2>
+		名字<input id="namPost" value="默认值"></input>
+		年龄<input id="agePost" value="默认值"></input>
+		年龄<input id="sexPost" value="默认值"></input>
+	</div>
+	<h4>服务器回调:<span id="info"></span></h4>
+	<button id="btn" onclick="post()">POST</button>
 	<script>
-	var num = document.getElementById('num'),
-		age = document.getElementById('age'),
-		sex = document.getElementById('sex');
-	function change(){
-		var xmlhttp;
+	function get(){
+		var xmlhttp,
+			namGet = document.getElementById('namGet'),
+			ageGet = document.getElementById('ageGet'),
+			sexGet = document.getElementById('sexGet');
 		if(window.XMLHttpRequest){
 			xmlhttp = new XMLHttpRequest();
 		}else{
@@ -29,13 +39,50 @@
 				console.log(data.name);
 				console.log(data.age);
 				console.log(data.sex);
-				num.innerHTML = data.name;
-				age.innerHTML = data.age;
-				sex.innerHTML = data.sex;
+				namGet.innerHTML = data.name;
+				ageGet.innerHTML = data.age;
+				sexGet.innerHTML = data.sex;
 			}
 		}
-		xmlhttp.open('GET','http://localhost:8080/ajax',true);
+		xmlhttp.open('GET','http://localhost:8080/ajax_get',true);
 		xmlhttp.send();
+	}
+
+
+    /**
+    	POST http://localhost:8080/ajax_post
+        Content-type: application/x-www-form-urlencoded
+        POST_BODY:
+        name=sb&age=12&sex=男
+    */
+	function post(){
+		var xmlhttp,
+			namPost = document.getElementById('namPost'),
+			agePost = document.getElementById('agePost'),
+			sexPost = document.getElementById('sexPost'),
+			info = document.getElementById('info');
+		if(window.XMLHttpRequest){
+			xmlhttp = new XMLHttpRequest();
+		}else{
+			xmlhttp = new ActiveXObject(Mircosoft.XMLHTTP);
+		}
+		var nam = namPost.value,
+			age = agePost.value,
+			sex = sexPost.value;
+
+			console.log(nam);
+			console.log(age);
+			console.log(sex);
+		var data = 'name='+nam+'&age='+age+'&sex='+sex;
+		console.log(data);
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState==4 && xmlhttp.status==200){
+				info.innerHTML = JSON.parse(xmlhttp.responseText).info;
+			}
+		}
+		xmlhttp.open('POST','http://localhost:8080/ajax_post',true);
+		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+		xmlhttp.send(data);
 	}
 	</script>
 </body>
