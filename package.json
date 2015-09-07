@@ -1,0 +1,29 @@
+{
+  "name": "ajax",
+  "version": "1.0.0",
+  "description": "example for ajax and jsonp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willworks/ajax.git"
+  },
+  "keywords": [
+    "ajax",
+    "jsonp",
+    "GET",
+    "POST"
+  ],
+  "author": "kevin.zhong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/willworks/ajax/issues"
+  },
+  "homepage": "https://github.com/willworks/ajax#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}

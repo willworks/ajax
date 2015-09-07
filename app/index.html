@@ -1,0 +1,42 @@
+<html lang='zh-CN'>
+<head>
+	<title>ajax</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+	<div>
+		<span id="num">我是名字</span>
+		<span id="age">我是年龄</span>
+		<span id="sex">我是年龄</span>
+	</div>
+	<br />
+	<button id="btn" onclick="change()">ajax GET</button>
+	<script>
+	var num = document.getElementById('num'),
+		age = document.getElementById('age'),
+		sex = document.getElementById('sex');
+	function change(){
+		var xmlhttp;
+		if(window.XMLHttpRequest){
+			xmlhttp = new XMLHttpRequest();
+		}else{
+			xmlhttp = new ActiveXObject(Mircosoft.XMLHTTP);
+		}
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState==4 && xmlhttp.status==200){
+				console.log(xmlhttp.responseText);
+				var data = JSON.parse(xmlhttp.responseText);
+				console.log(data.name);
+				console.log(data.age);
+				console.log(data.sex);
+				num.innerHTML = data.name;
+				age.innerHTML = data.age;
+				sex.innerHTML = data.sex;
+			}
+		}
+		xmlhttp.open('GET','http://localhost:8080/ajax',true);
+		xmlhttp.send();
+	}
+	</script>
+</body>
+</html>
