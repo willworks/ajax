@@ -27,7 +27,7 @@ app.get('/ajax_get', function(req, res){
 app.post('/ajax_post', function(req, res){
 	var name=req.body.name,
 		age=req.body.age,
-		sex=req.body.age;
+		sex=req.body.sex;
 
 	console.log(name);
 	console.log(age);
