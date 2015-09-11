@@ -23,6 +23,20 @@ app.get('/ajax_get', function(req, res){
 	});  
 });
 
+
+app.get('/jsonp', function(req, res){
+	fs.readFile("data.json",'utf-8',function(err,data){  
+	    if(err){  
+	        console.log("error");  
+	    }else{  
+	    	//res.send(data);
+	    	//var da = "callback("+data+")";
+	    	res.send("callback('123123');");
+	        //console.log(data);  
+	    }  
+	});  
+});
+
 // 处理POST请求
 app.post('/ajax_post', function(req, res){
 	var name=req.body.name,

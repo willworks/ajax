@@ -4,6 +4,18 @@
 	<meta charset="utf-8" />
 </head>
 <body>
+	<!-- JSONP -->
+	<div>
+		<h2>JSONP</h2>
+		<span id="namJsonp">我是名字</span>
+		<span id="ageJsonp">我是年龄</span>
+		<span id="sexJsonp">我是性别</span>
+	</div>
+	<br />
+	<button id="btn" onclick="jsonp()">GET</button>
+	<br />
+
+	<!-- AJAX GET -->
 	<div>
 		<h2>AJAX GET</h2>
 		<span id="namGet">我是名字</span>
@@ -13,6 +25,8 @@
 	<br />
 	<button id="btn" onclick="get()">GET</button>
 	<br />
+
+	<!-- AJAX POST -->
 	<div>
 		<h2>AJAX POST</h2>
 		名字<input id="namPost" value="默认值"></input>
@@ -21,7 +35,35 @@
 	</div>
 	<h4>服务器回调:<span id="info"></span></h4>
 	<button id="btn" onclick="post()">POST</button>
+
 	<script>
+	//jsonp
+	function jsonp(){
+		var	namGet = document.getElementById('namJsonp'),
+			ageGet = document.getElementById('ageJsonp'),
+			sexGet = document.getElementById('sexJsonp');
+	        //添加<script>标签的方法
+	        function addScriptTag(src){
+	            var script = document.createElement('script');
+	            script.setAttribute("type","text/javascript");
+	            script.src = src;
+	            document.body.appendChild(script);
+	        }
+
+	        window.onload = function(){
+	            //搜索apple，将自定义的回调函数名result传入callback参数中
+	            addScriptTag("http://localhost:8080/jsonp");
+
+	    	};
+
+	        //自定义的回调函数result
+	        function callback(data) {
+	            console.log(data);
+	        }
+	}
+
+
+	// AJAX GET请求
 	function get(){
 		var xmlhttp,
 			namGet = document.getElementById('namGet'),
@@ -43,7 +85,7 @@
 				ageGet.innerHTML = data.age;
 				sexGet.innerHTML = data.sex;
 			}
-		}
+		};
 		xmlhttp.open('GET','http://localhost:8080/ajax_get',true);
 		xmlhttp.send();
 	}
@@ -79,7 +121,7 @@
 			if(xmlhttp.readyState==4 && xmlhttp.status==200){
 				info.innerHTML = JSON.parse(xmlhttp.responseText).info;
 			}
-		}
+		};
 		xmlhttp.open('POST','http://localhost:8080/ajax_post',true);
 		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		xmlhttp.send(data);
