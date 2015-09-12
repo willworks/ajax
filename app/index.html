@@ -12,7 +12,7 @@
 		<span id="sexJsonp">我是性别</span>
 	</div>
 	<br />
-	<button id="btn" onclick="jsonp()">GET</button>
+	<button onclick="addScriptTag('http://localhost:8080/jsonp');">JSONP</button>
 	<br />
 
 	<!-- AJAX GET -->
@@ -23,7 +23,7 @@
 		<span id="sexGet">我是性别</span>
 	</div>
 	<br />
-	<button id="btn" onclick="get()">GET</button>
+	<button onclick="get()">GET</button>
 	<br />
 
 	<!-- AJAX POST -->
@@ -34,33 +34,30 @@
 		性别<input id="sexPost" value="默认值"></input>
 	</div>
 	<h4>服务器回调:<span id="info"></span></h4>
-	<button id="btn" onclick="post()">POST</button>
+	<button onclick="post()">POST</button>
 
 	<script>
 	//jsonp
-	function jsonp(){
-		var	namGet = document.getElementById('namJsonp'),
-			ageGet = document.getElementById('ageJsonp'),
-			sexGet = document.getElementById('sexJsonp');
-	        //添加<script>标签的方法
-	        function addScriptTag(src){
-	            var script = document.createElement('script');
-	            script.setAttribute("type","text/javascript");
-	            script.src = src;
-	            document.body.appendChild(script);
-	        }
-
-	        window.onload = function(){
-	            //搜索apple，将自定义的回调函数名result传入callback参数中
-	            addScriptTag("http://localhost:8080/jsonp");
-
-	    	};
-
-	        //自定义的回调函数result
-	        function callback(data) {
-	            console.log(data);
-	        }
+	//添加<script>标签的方法
+	function addScriptTag(src){
+	    var script = document.createElement('script');
+	    script.setAttribute("type","text/javascript");
+	    script.src = src;
+	    document.body.appendChild(script);
 	}
+	
+
+	//自定义的回调函数result
+	function callback(data) {
+	    //alert(data.name);
+	    var	namJsonp = document.getElementById('namJsonp'),
+	    	ageJsonp = document.getElementById('ageJsonp'),
+	    	sexJsonp = document.getElementById('sexJsonp');
+	    namJsonp.innerHTML = data.name;
+	    ageJsonp.innerHTML = data.age;
+	    sexJsonp.innerHTML = data.sex;
+	}
+	//END jsonp
 
 
 	// AJAX GET请求
