@@ -2,6 +2,9 @@
 <head>
 	<title>AJAX and JSONP</title>
 	<meta charset="utf-8" />
+	<style>
+		input{width:4rem}
+	</style>
 </head>
 <body>
 	<!-- JSONP -->
@@ -18,11 +21,11 @@
 	<!-- AJAX GET -->
 	<div>
 		<h2>AJAX GET</h2>
-		<span id="namGet">我是名字</span>
+		待查询的名字<input id="namGet" value="钟汉津"></input>
 		<span id="ageGet">我是年龄</span>
 		<span id="sexGet">我是性别</span>
 	</div>
-	<br />
+	<h4>服务器回调:<span id="infoGet"></span></h4>
 	<button onclick="get()">GET</button>
 	<br />
 
@@ -63,6 +66,7 @@
 	// AJAX GET请求
 	function get(){
 		var xmlhttp,
+			info = document.getElementById('infoGet'),
 			namGet = document.getElementById('namGet'),
 			ageGet = document.getElementById('ageGet'),
 			sexGet = document.getElementById('sexGet');
@@ -75,15 +79,23 @@
 			if(xmlhttp.readyState==4 && xmlhttp.status==200){
 				console.log(xmlhttp.responseText);
 				var data = JSON.parse(xmlhttp.responseText);
-				console.log(data.name);
-				console.log(data.age);
-				console.log(data.sex);
-				namGet.innerHTML = data.name;
-				ageGet.innerHTML = data.age;
-				sexGet.innerHTML = data.sex;
+				if(!data.info){
+					console.log(data.name);
+					console.log(data.age);
+					console.log(data.sex);
+					namGet.innerHTML = data.name;
+					ageGet.innerHTML = data.age;
+					sexGet.innerHTML = data.sex;
+					info.innerHTML = "查询成功！";
+				}else{
+					console.log(data.info);
+					info.innerHTML = data.info;
+				}
+
 			}
 		};
-		xmlhttp.open('GET','http://localhost:8080/ajax_get',true);
+		var nam = namGet.value;
+		xmlhttp.open('GET','http://localhost:8080/ajax_get'+'?name='+nam,true);
 		xmlhttp.send();
 	}
 
